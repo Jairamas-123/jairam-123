@@ -1,0 +1,5 @@
+# String Concatenation Example
+string1 = "Hello"
+string2 = "World"
+concatenated_string = string1 + " " + string2  # Concatenates with a space in between
+print("Concatenated String:", concatenated_string)
