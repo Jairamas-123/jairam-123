@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str1[50] = "Hello";
+    char str2[50] = "World";
+    char str3[50];
+
+    // 1. String Length
+    int length1 = strlen(str1);
+    int length2 = strlen(str2);
+    printf("Length of str1: %d\n", length1);
+    printf("Length of str2: %d\n", length2);
+
+    // 2. String Concatenation
+    strcat(str1, " ");  // Add a space before concatenation
+    strcat(str1, str2);
+    printf("After concatenation, str1: %s\n", str1);
+
+    // 3. String Copy
+    strcpy(str3, str1);
+    printf("Copied string (str3): %s\n", str3);
+
+    // 4. String Comparison
+    int comparison = strcmp(str2, "World");
+    if (comparison == 0) {
+        printf("str2 is equal to \"World\"\n");
+    } else if (comparison < 0) {
+        printf("str2 is less than \"World\"\n");
+    } else {
+        printf("str2 is greater than \"World\"\n");
+    }
+
+    return 0;
+}
