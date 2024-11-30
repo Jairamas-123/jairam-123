@@ -1,0 +1,124 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_BOOKS 10
+struct Book {
+    int id;
+    char title[100];
+    char author[100];
+};
+void addBook(struct Book books[], int *bookCount) {
+    if (*bookCount >= MAX_BOOKS) {
+        printf("Book list is full! Cannot add more books.\n");
+        return;
+    }
+
+    struct Book newBook;
+    printf("Enter book ID: ");
+    scanf("%d", &newBook.id);
+    getchar(); // to consume the newline character
+    printf("Enter book title: ");
+    fgets(newBook.title, sizeof(newBook.title), stdin);
+    newBook.title[strcspn(newBook.title, "\n")] = '\0'; // Remove the newline character
+    printf("Enter book author: ");
+    fgets(newBook.author, sizeof(newBook.author), stdin);
+    newBook.author[strcspn(newBook.author, "\n")] = '\0'; // Remove the newline character
+
+    books[*bookCount] = newBook;
+    (*bookCount)++;
+    printf("Book added successfully!\n");
+}
+void displayBooks(struct Book books[], int bookCount) {
+    if (bookCount == 0) {
+        printf("No books available!\n");
+        return;
+    }
+
+    printf("\nBook Records:\n");
+    printf("ID\tTitle\t\t\tAuthor\n");
+    for (int i = 0; i < bookCount; i++) {
+        printf("%d\t%s\t\t%s\n", books[i].id, books[i].title, books[i].author);
+    }
+}
+void searchBook(struct Book books[], int bookCount) {
+    char searchTitle[100];
+    getchar(); 
+    printf("Enter book title to search: ");
+    fgets(searchTitle, sizeof(searchTitle), stdin);
+    searchTitle[strcspn(searchTitle, "\n")] = '\0'; // Remove the newline character
+
+    int found = 0;
+    for (int i = 0; i < bookCount; i++) {
+        if (strcmp(books[i].title, searchTitle) == 0) {
+            printf("Book found! ID: %d, Author: %s\n", books[i].id, books[i].author);
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("Book not found!\n");
+    }
+}
+
+
+void deleteBook(struct Book books[], int *bookCount) {
+    int deleteId;
+    printf("Enter book ID to delete: ");
+    scanf("%d", &deleteId);
+
+    int found = 0;
+    for (int i = 0; i < *bookCount; i++) {
+        if (books[i].id == deleteId) {
+            for (int j = i; j < *bookCount - 1; j++) {
+                books[j] = books[j + 1];
+            }
+            (*bookCount)--;  // Decrease book count
+            printf("Book with ID %d deleted successfully!\n", deleteId);
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("Book with ID %d not found!\n", deleteId);
+    }
+}
+int main() {
+    struct Book books[MAX_BOOKS];
+    int bookCount = 0;
+    int choice;
+
+    do {
+        printf("\nBook Management System\n");
+        printf("1. Add Book\n");
+        printf("2. Display Books\n");
+        printf("3. Search Book\n");
+        printf("4. Delete Book\n");
+        printf("5. Exit\n");
+        printf("Enter your choice (1-5): ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                addBook(books, &bookCount);
+                break;
+            case 2:
+                displayBooks(books, bookCount);
+                break;
+            case 3:
+                searchBook(books, bookCount);
+                break;
+            case 4:
+                deleteBook(books, &bookCount);
+                break;
+            case 5:
+                printf("Exiting program...\n");
+                break;
+            default:
+                printf("Invalid choice! Please try again.\n");
+        }
+    } while (choice != 5);
+
+    return 0;
+}

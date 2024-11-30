@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
+int checkPasswordLength(char *password) {
+    return strlen(password) >= 8;
+}
+
+int checkUpperCase(char *password) {
+    for (int i = 0; i < strlen(password); i++) {
+        if (isupper(password[i])) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int checkLowerCase(char *password) {
+    for (int i = 0; i < strlen(password); i++) {
+        if (islower(password[i])) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int checkDigit(char *password) {
+    for (int i = 0; i < strlen(password); i++) {
+        if (isdigit(password[i])) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int checkSpecialCharacter(char *password) {
+    for (int i = 0; i < strlen(password); i++) {
+        if (ispunct(password[i])) {  // Check if the character is a punctuation mark (special char)
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int main() {
+    char password[100];
+
+    printf("Enter your password: ");
+    scanf("%s", password);
+
+    if (!checkPasswordLength(password)) {
+        printf("Password must be at least 8 characters long.\n");
+    } else if (!checkUpperCase(password)) {
+        printf("Password must contain at least one uppercase letter.\n");
+    } else if (!checkLowerCase(password)) {
+        printf("Password must contain at least one lowercase letter.\n");
+    } else if (!checkDigit(password)) {
+        printf("Password must contain at least one digit.\n");
+    } else if (!checkSpecialCharacter(password)) {
+        printf("Password must contain at least one special character.\n");
+    } else {
+        printf("Password is valid.\n");
+    }
+
+    return 0;
+}
